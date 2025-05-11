@@ -1,0 +1,102 @@
+<html class="scroll-smooth" lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Forgot Password - RentO
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f7fcfb;
+    }
+  </style>
+ </head>
+ <body class="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+  <!-- Decorative Images -->
+  <img alt="Decorative room image 1" class="absolute top-4 left-4 opacity-20 w-32 h-32 rounded-lg object-cover select-none pointer-events-none" height="150" src="https://storage.googleapis.com/a1aa/image/5c43329f-aa45-4451-7441-2ebb3f5a70f7.jpg" width="150"/>
+  <img alt="Decorative room image 2" class="absolute bottom-4 right-4 opacity-20 w-32 h-32 rounded-lg object-cover select-none pointer-events-none" height="150" src="https://storage.googleapis.com/a1aa/image/8f7ddecc-9b81-4848-a3a5-ea26b49b6b37.jpg" width="150"/>
+  <main class="bg-white rounded-lg shadow-lg max-w-md w-full p-8 space-y-6 z-10 relative">
+   <h1 class="text-3xl font-extrabold text-gray-900 text-center">
+    Forgot Your Password?
+   </h1>
+   <p class="text-center text-gray-700 mb-6">
+    Enter your email address below and we'll send you a link to reset your password.
+   </p>
+   <form class="space-y-5" id="forgotForm" novalidate="">
+    <div>
+     <label class="block text-gray-700 font-semibold mb-1" for="email">
+      Email Address
+     </label>
+     <input aria-describedby="emailError" autocomplete="email" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" id="email" name="email" placeholder="you@example.com" required="" type="email"/>
+     <p class="text-red-600 text-sm mt-1 hidden" id="emailError">
+      Please enter a valid email address.
+     </p>
+    </div>
+    <button class="w-full bg-[#2ea437] text-white font-semibold py-3 rounded-md hover:bg-[#279230] transition disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center space-x-2" disabled="" id="sendLinkBtn" type="submit">
+     <span>
+      Send Reset Link
+     </span>
+     <svg class="animate-spin h-5 w-5 text-white hidden" fill="none" id="spinner" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+      </circle>
+      <path class="opacity-75" d="M4 12a8 8 0 018-8v8H4z" fill="currentColor">
+      </path>
+     </svg>
+    </button>
+   </form>
+   <p class="text-center text-gray-700 text-sm">
+    Remembered your password?
+    <a class="text-[#2ea437] font-semibold hover:underline" href="/login.html">
+     Sign In
+    </a>
+   </p>
+   <p class="text-center text-gray-700 text-sm">
+    New to RentO?
+    <a class="text-[#2ea437] font-semibold hover:underline" href="/sign_up.html">
+     Create an Account
+    </a>
+   </p>
+  </main>
+  <script>
+   const emailInput = document.getElementById('email');
+    const sendLinkBtn = document.getElementById('sendLinkBtn');
+    const emailError = document.getElementById('emailError');
+    const spinner = document.getElementById('spinner');
+    const forgotForm = document.getElementById('forgotForm');
+
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    emailInput.addEventListener('input', () => {
+      const val = emailInput.value.trim();
+      if (validateEmail(val)) {
+        emailError.style.display = 'none';
+        sendLinkBtn.disabled = false;
+      } else {
+        emailError.style.display = val === '' ? 'none' : 'block';
+        sendLinkBtn.disabled = true;
+      }
+    });
+
+    forgotForm.addEventListener('submit', e => {
+      e.preventDefault();
+      sendLinkBtn.disabled = true;
+      spinner.classList.remove('hidden');
+
+      // Simulate sending reset link
+      setTimeout(() => {
+        spinner.classList.add('hidden');
+        alert('If this email is registered, a password reset link has been sent.');
+        sendLinkBtn.disabled = false;
+        forgotForm.reset();
+      }, 2000);
+    });
+  </script>
+ </body>
+</html>

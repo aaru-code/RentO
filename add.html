@@ -1,0 +1,526 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Room - RentO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    input[type="file"] {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-[#f7fcfb] min-h-screen">
+  <!-- Header -->
+  <header class="bg-[#2ea437] px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto h-12 flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="#" class="text-white font-extrabold text-lg select-none">RentO</a>
+      </div>
+      <div class="hidden md:flex items-center space-x-6 text-white text-sm font-semibold">
+        <a href="/home.html" class="hover:underline">Home</a>
+        <a href="/about.html" class="hover:underline">About</a>
+        <a href="/contact.html" class="hover:underline">Contact</a>
+        <a href="/team.html" class="hover:underline">Team</a>
+      </div>
+      <div class="relative text-white text-sm font-semibold">
+        <button id="accountBtn" aria-haspopup="true" aria-expanded="false" class="flex items-center space-x-1 focus:outline-none">
+          <i class="fas fa-user-circle text-lg"></i>
+          <span>My Account</span>
+          <i class="fas fa-chevron-down text-xs"></i>
+        </button>
+        <div
+          id="dropdownMenu"
+          class="hidden absolute right-0 mt-1 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-20"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="accountBtn"
+        >
+          <a href="/profile.html" class="flex items-center justify-between px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">
+            Profile
+            <span class="ml-2 text-xs font-normal bg-[#d1f0c0] text-[#2ea437] rounded px-1.5 py-0.5 select-none">Owner</span>
+          </a>
+          <a href="/list.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">My Listings</a>
+          <a href="/add.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Add Room</a>
+          <a href="/request.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Booking Requests</a>
+          <a href="/logout.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6 sm:p-10 bg-white rounded-lg shadow-md mt-8 mb-12">
+    <h1 class="text-2xl font-extrabold text-gray-900 mb-8">Add New Room</h1>
+    <form id="addRoomForm" class="space-y-10" novalidate>
+      <!-- Room Information -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Room Information</h2>
+        <div class="space-y-6">
+          <div>
+            <label for="roomTitle" class="block text-gray-700 font-semibold mb-1">Room Title <span class="text-red-600">*</span></label>
+            <input type="text" id="roomTitle" name="roomTitle" placeholder="Cozy Studio in Downtown" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" />
+            <p class="text-red-600 text-sm mt-1 hidden" id="errorRoomTitle">Room Title is required.</p>
+          </div>
+          <div>
+            <label for="description" class="block text-gray-700 font-semibold mb-1">Description <span class="text-red-600">*</span></label>
+            <textarea id="description" name="description" rows="4" placeholder="Detailed information about the room, amenities, nearby landmarks, etc." required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]"></textarea>
+            <p class="text-red-600 text-sm mt-1 hidden" id="errorDescription">Description is required.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label for="roomType" class="block text-gray-700 font-semibold mb-1">Type of Room <span class="text-red-600">*</span></label>
+              <select id="roomType" name="roomType" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]">
+                <option value="">Select type</option>
+                <option>Single Room</option>
+                <option>Shared Room</option>
+                <option>Studio</option>
+                <option>1BHK</option>
+                <option>2BHK</option>
+                <option>Other</option>
+              </select>
+              <p class="text-red-600 text-sm mt-1 hidden" id="errorRoomType">Room type is required.</p>
+            </div>
+            <div>
+              <label for="category" class="block text-gray-700 font-semibold mb-1">Category (Optional)</label>
+              <select id="category" name="category" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]">
+                <option value="">Select category</option>
+                <option>Family</option>
+                <option>Students</option>
+                <option>Working Professionals</option>
+                <option>Others</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Location -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Location</h2>
+        <div class="space-y-6">
+          <div>
+            <label for="fullAddress" class="block text-gray-700 font-semibold mb-1">Full Address <span class="text-red-600">*</span></label>
+            <textarea id="fullAddress" name="fullAddress" rows="3" placeholder="Street, City, State, Postal Code" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]"></textarea>
+            <p class="text-red-600 text-sm mt-1 hidden" id="errorFullAddress">Full address is required.</p>
+          </div>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-1">Nearby Facilities Tags</label>
+            <div class="flex flex-wrap gap-3">
+              <label class="inline-flex items-center space-x-2">
+                <input type="checkbox" name="facilities" value="Bus Stop" class="form-checkbox text-[#2ea437]" />
+                <span>Bus Stop</span>
+              </label>
+              <label class="inline-flex items-center space-x-2">
+                <input type="checkbox" name="facilities" value="Metro Station" class="form-checkbox text-[#2ea437]" />
+                <span>Metro Station</span>
+              </label>
+              <label class="inline-flex items-center space-x-2">
+                <input type="checkbox" name="facilities" value="Grocery Store" class="form-checkbox text-[#2ea437]" />
+                <span>Grocery Store</span>
+              </label>
+              <label class="inline-flex items-center space-x-2">
+                <input type="checkbox" name="facilities" value="Park" class="form-checkbox text-[#2ea437]" />
+                <span>Park</span>
+              </label>
+              <label class="inline-flex items-center space-x-2">
+                <input type="checkbox" name="facilities" value="School" class="form-checkbox text-[#2ea437]" />
+                <span>School</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing & Availability -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Pricing & Availability</h2>
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+            <label for="rentPrice" class="block text-gray-700 font-semibold">Rent Price <span class="text-red-600">*</span></label>
+            <input type="number" id="rentPrice" name="rentPrice" min="0" step="0.01" placeholder="0.00" required class="sm:col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+            <label class="block text-gray-700 font-semibold">Price Unit</label>
+            <div class="sm:col-span-2 flex items-center space-x-6">
+              <label class="inline-flex items-center space-x-2">
+                <input type="radio" name="priceUnit" value="night" checked class="form-radio text-[#2ea437]" />
+                <span>Nightly</span>
+              </label>
+              <label class="inline-flex items-center space-x-2">
+                <input type="radio" name="priceUnit" value="month" class="form-radio text-[#2ea437]" />
+                <span>Monthly</span>
+              </label>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+            <label for="securityDeposit" class="block text-gray-700 font-semibold">Security Deposit (Optional)</label>
+            <input type="number" id="securityDeposit" name="securityDeposit" min="0" step="0.01" placeholder="0.00" class="sm:col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+            <label class="block text-gray-700 font-semibold">Availability Dates</label>
+            <div class="sm:col-span-2 flex items-center space-x-4">
+              <input type="date" id="availableFrom" name="availableFrom" class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" />
+              <span>to</span>
+              <input type="date" id="availableTo" name="availableTo" class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" />
+              <label class="inline-flex items-center space-x-2 ml-6">
+                <input type="checkbox" id="availableImmediately" name="availableImmediately" class="form-checkbox text-[#2ea437]" />
+                <span>Available Immediately</span>
+              </label>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+            <label for="minStay" class="block text-gray-700 font-semibold">Minimum Stay Duration</label>
+            <select id="minStay" name="minStay" class="sm:col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]">
+              <option value="1 month">1 month</option>
+              <option value="3 months">3 months</option>
+              <option value="6 months">6 months</option>
+              <option value="12 months">12 months</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Photos Upload -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Photos Upload</h2>
+        <p class="text-sm text-gray-600 mb-3">Upload up to 10 images. Recommended size: 800x600px or 4:3 ratio.</p>
+        <label for="photosUpload" class="cursor-pointer inline-block bg-[#2ea437] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#279230] transition mb-4">
+          <i class="fas fa-upload mr-2"></i> Upload Photos
+        </label>
+        <input type="file" id="photosUpload" name="photosUpload" accept="image/*" multiple />
+        <div id="photosPreview" class="grid grid-cols-3 sm:grid-cols-5 gap-4"></div>
+        <p class="text-red-600 text-sm mt-1 hidden" id="errorPhotos">Please upload at least one photo.</p>
+      </section>
+
+      <!-- Amenities -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Amenities</h2>
+        <div class="flex flex-wrap gap-6">
+          <label class="inline-flex items-center space-x-2">
+            <input type="checkbox" name="amenities" value="Wi-Fi" class="form-checkbox text-[#2ea437]" />
+            <span>Wi-Fi</span>
+          </label>
+          <label class="inline-flex items-center space-x-2">
+            <input type="checkbox" name="amenities" value="Air Conditioning" class="form-checkbox text-[#2ea437]" />
+            <span>Air Conditioning</span>
+          </label>
+          <label class="inline-flex items-center space-x-2">
+            <input type="checkbox" name="amenities" value="Attached Bathroom" class="form-checkbox text-[#2ea437]" />
+            <span>Attached Bathroom</span>
+          </label>
+          <label class="inline-flex items-center space-x-2">
+            <input type="checkbox" name="amenities" value="Parking" class="form-checkbox text-[#2ea437]" />
+            <span>Parking</span>
+          </label>
+          <label class="inline-flex items-center space-x-2">
+            <input type="checkbox" name="amenities" value="Kitchen Access" class="form-checkbox text-[#2ea437]" />
+            <span>Kitchen Access</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Rules/Policies -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Rules / Policies (Optional)</h2>
+        <div class="flex flex-wrap gap-6">
+          <label class="inline-flex items-center space-x-2">
+            <input type="checkbox" name="rules" value="Smoking Allowed" class="form-checkbox text-[#2ea437]" />
+            <span>Smoking allowed?</span>
+          </label>
+          <label class="inline-flex items-center space-x-2">
+            <input type="checkbox" name="rules" value="Pets Allowed" class="form-checkbox text-[#2ea437]" />
+            <span>Pets allowed?</span>
+          </label>
+          <label class="inline-flex items-center space-x-2">
+            <input type="checkbox" name="rules" value="Visitors Allowed" class="form-checkbox text-[#2ea437]" />
+            <span>Visitors allowed?</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Submit Buttons -->
+      <section class="flex justify-end space-x-4 mt-10">
+        <button type="button" id="saveDraftBtn" class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 font-semibold hover:bg-gray-100 transition">
+          Save as Draft
+        </button>
+        <button type="submit" class="px-6 py-2 bg-[#2ea437] text-white rounded-md font-semibold hover:bg-[#279230] transition">
+          Save & Publish
+        </button>
+      </section>
+    </form>
+  </main>
+
+  <script>
+    // Header dropdown toggle
+    const accountBtn = document.getElementById('accountBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    accountBtn.addEventListener('click', () => {
+      const isExpanded = accountBtn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        dropdownMenu.classList.remove('hidden');
+        accountBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+    window.addEventListener('click', e => {
+      if (!accountBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Photos upload preview and remove
+    const photosUpload = document.getElementById('photosUpload');
+    const photosPreview = document.getElementById('photosPreview');
+    let photosFiles = [];
+
+    photosUpload.addEventListener('change', (e) => {
+      const files = Array.from(e.target.files);
+      // Limit to 10 images max
+      if (photosFiles.length + files.length > 10) {
+        alert('You can upload up to 10 images only.');
+        return;
+      }
+      files.forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        photosFiles.push(file);
+      });
+      renderPhotos();
+      photosUpload.value = '';
+    });
+
+    function renderPhotos() {
+      photosPreview.innerHTML = '';
+      photosFiles.forEach((file, index) => {
+        const url = URL.createObjectURL(file);
+        const div = document.createElement('div');
+        div.className = 'relative group rounded overflow-hidden border border-gray-300';
+        div.style.width = '120px';
+        div.style.height = '90px';
+
+        div.innerHTML = `
+          <img src="${url}" alt="Room photo preview" class="w-full h-full object-cover" />
+          <button type="button" aria-label="Remove photo" class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition" data-index="${index}">
+            <i class="fas fa-times text-xs"></i>
+          </button>
+        `;
+        photosPreview.appendChild(div);
+      });
+    }
+
+    photosPreview.addEventListener('click', (e) => {
+      if (e.target.closest('button')) {
+        const btn = e.target.closest('button');
+        const idx = parseInt(btn.getAttribute('data-index'));
+        photosFiles.splice(idx, 1);
+        renderPhotos();
+      }
+    });
+
+    // Form validation and submission
+    const form = document.getElementById('addRoomForm');
+
+    function showError(id, show) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = show ? 'block' : 'none';
+    }
+
+    function validateForm() {
+      let valid = true;
+
+      // Room Title
+      if (!form.roomTitle.value.trim()) {
+        showError('errorRoomTitle', true);
+        valid = false;
+      } else {
+        showError('errorRoomTitle', false);
+      }
+
+      // Description
+      if (!form.description.value.trim()) {
+        showError('errorDescription', true);
+        valid = false;
+      } else {
+        showError('errorDescription', false);
+      }
+
+      // Room Type
+      if (!form.roomType.value) {
+        showError('errorRoomType', true);
+        valid = false;
+      } else {
+        showError('errorRoomType', false);
+      }
+
+      // Full Address
+      if (!form.fullAddress.value.trim()) {
+        showError('errorFullAddress', true);
+        valid = false;
+      } else {
+        showError('errorFullAddress', false);
+      }
+
+      // Rent Price
+      if (!form.rentPrice.value || parseFloat(form.rentPrice.value) < 0) {
+        alert('Please enter a valid rent price.');
+        valid = false;
+      }
+
+      // Photos required
+      if (photosFiles.length === 0) {
+        showError('errorPhotos', true);
+        valid = false;
+      } else {
+        showError('errorPhotos', false);
+      }
+
+      return valid;
+    }
+
+    // Save room to localStorage and update room list page data
+    function saveRoom(data) {
+      let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+
+      // Assign unique ID
+      const newId = rooms.length > 0 ? Math.max(...rooms.map(r => r.id)) + 1 : 1;
+      data.id = newId;
+
+      // Add dateAdded and dateUpdated
+      const today = new Date().toISOString().split('T')[0];
+      data.dateAdded = today;
+      data.dateUpdated = today;
+
+      // Default status and bookingStatus
+      data.status = 'pending';
+      data.bookingStatus = 'available';
+
+      // Add default analytics
+      data.views = 0;
+      data.bookingRequests = 0;
+      data.lastBookingDate = 'N/A';
+
+      rooms.push(data);
+      localStorage.setItem('rooms', JSON.stringify(rooms));
+    }
+
+    // Convert File objects to base64 strings for storage
+    function filesToBase64(files) {
+      return Promise.all(
+        files.map(file => {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+        })
+      );
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateForm()) return;
+
+      // Gather form data
+      const formData = {
+        title: form.roomTitle.value.trim(),
+        description: form.description.value.trim(),
+        roomType: form.roomType.value,
+        category: form.category.value || '',
+        fullAddress: form.fullAddress.value.trim(),
+        facilities: Array.from(form.querySelectorAll('input[name="facilities"]:checked')).map(i => i.value),
+        rentPrice: parseFloat(form.rentPrice.value),
+        priceUnit: form.priceUnit.value,
+        securityDeposit: form.securityDeposit.value ? parseFloat(form.securityDeposit.value) : 0,
+        availableFrom: form.availableFrom.value || null,
+        availableTo: form.availableTo.value || null,
+        availableImmediately: form.availableImmediately.checked,
+        minStay: form.minStay.value,
+        amenities: Array.from(form.querySelectorAll('input[name="amenities"]:checked')).map(i => i.value),
+        rules: Array.from(form.querySelectorAll('input[name="rules"]:checked')).map(i => i.value),
+        photos: []
+      };
+
+      // Convert photos to base64 strings
+      try {
+        formData.photos = await filesToBase64(photosFiles);
+      } catch {
+        alert('Error reading photos. Please try again.');
+        return;
+      }
+
+      // Save room data
+      saveRoom(formData);
+
+      alert('Room added successfully! It will appear in your listings.');
+
+      // Reset form and photos
+      form.reset();
+      photosFiles = [];
+      photosPreview.innerHTML = '';
+    });
+
+    // Save as draft button (just saves with status draft)
+    document.getElementById('saveDraftBtn').addEventListener('click', async () => {
+      if (!validateForm()) return;
+
+      const formData = {
+        title: form.roomTitle.value.trim(),
+        description: form.description.value.trim(),
+        roomType: form.roomType.value,
+        category: form.category.value || '',
+        fullAddress: form.fullAddress.value.trim(),
+        facilities: Array.from(form.querySelectorAll('input[name="facilities"]:checked')).map(i => i.value),
+        rentPrice: parseFloat(form.rentPrice.value),
+        priceUnit: form.priceUnit.value,
+        securityDeposit: form.securityDeposit.value ? parseFloat(form.securityDeposit.value) : 0,
+        availableFrom: form.availableFrom.value || null,
+        availableTo: form.availableTo.value || null,
+        availableImmediately: form.availableImmediately.checked,
+        minStay: form.minStay.value,
+        amenities: Array.from(form.querySelectorAll('input[name="amenities"]:checked')).map(i => i.value),
+        rules: Array.from(form.querySelectorAll('input[name="rules"]:checked')).map(i => i.value),
+        photos: []
+      };
+
+      try {
+        formData.photos = await filesToBase64(photosFiles);
+      } catch {
+        alert('Error reading photos. Please try again.');
+        return;
+      }
+
+      // Save draft with status draft
+      let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+      const newId = rooms.length > 0 ? Math.max(...rooms.map(r => r.id)) + 1 : 1;
+      formData.id = newId;
+      const today = new Date().toISOString().split('T')[0];
+      formData.dateAdded = today;
+      formData.dateUpdated = today;
+      formData.status = 'draft';
+      formData.bookingStatus = 'available';
+      formData.views = 0;
+      formData.bookingRequests = 0;
+      formData.lastBookingDate = 'N/A';
+
+      rooms.push(formData);
+      localStorage.setItem('rooms', JSON.stringify(rooms));
+
+      alert('Draft saved successfully!');
+
+      form.reset();
+      photosFiles = [];
+      photosPreview.innerHTML = '';
+    });
+  </script>
+</body>
+</html>

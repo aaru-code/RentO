@@ -1,0 +1,300 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Renter Verification & Management - RentO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .verified-badge {
+      background-color: #2ea437;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .modal-bg {
+      background-color: rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body class="bg-[#f7fcfb] min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-[#2ea437] px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto h-12 flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="#" class="text-white font-extrabold text-lg select-none">RentO</a>
+      </div>
+      <div class="hidden md:flex items-center space-x-6 text-white text-sm font-semibold">
+        <a href="#" class="hover:underline">Home</a>
+        <a href="#" class="hover:underline">About</a>
+        <a href="#" class="hover:underline">Contact</a>
+        <a href="#" class="hover:underline">Search Rooms</a>
+      </div>
+      <div class="relative text-white text-sm font-semibold">
+        <button id="accountBtn" aria-haspopup="true" aria-expanded="false" class="flex items-center space-x-1 focus:outline-none">
+          <i class="fas fa-user-circle text-lg"></i>
+          <span>My Account</span>
+          <i class="fas fa-chevron-down text-xs"></i>
+        </button>
+        <div
+          id="dropdownMenu"
+          class="hidden absolute right-0 mt-1 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-20"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="accountBtn"
+        >
+          <a href="#" class="flex items-center justify-between px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">
+            Profile
+            <span class="ml-2 text-xs font-normal bg-[#d1f0c0] text-[#2ea437] rounded px-1.5 py-0.5 select-none">Owner</span>
+          </a>
+          <a href="#" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">My Listings</a>
+          <a href="#" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Add Room</a>
+          <a href="#" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Booking Requests</a>
+          <a href="#" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto p-6 sm:p-10 bg-white rounded-lg shadow-md mt-8 mb-12">
+    <h1 class="text-2xl font-extrabold text-gray-900 mb-8">Renter Verification & Management</h1>
+
+    <section>
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Booking Requests</h2>
+      <table class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-md overflow-hidden">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Renter</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Room Title</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">ID Verification</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Booking Agreement</th>
+            <th class="px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="requestsBody" class="divide-y divide-gray-200 bg-white">
+          <!-- Rows inserted by JS -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 hidden items-center justify-center modal-bg z-30">
+    <div class="bg-white rounded-lg shadow-lg max-w-lg w-full mx-4 p-6 relative">
+      <button id="modalClose" aria-label="Close modal" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 focus:outline-none">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+      <div id="modalContent" class="text-gray-800"></div>
+    </div>
+  </div>
+
+  <script>
+    // Sample booking requests with renter info and verification/agreement status
+    const bookingRequests = [
+      {
+        id: 1,
+        renterName: "Alice Johnson",
+        renterProfilePic: "https://placehold.co/40x40?text=AJ",
+        roomTitle: "Cozy Downtown Apartment",
+        idVerified: true,
+        bookingAgreementUrl: "https://example.com/agreements/agreement1.pdf",
+        messages: [
+          { from: "renter", text: "Looking forward to staying!" },
+          { from: "owner", text: "Please review the agreement." }
+        ],
+        blocked: false
+      },
+      {
+        id: 2,
+        renterName: "Bob Smith",
+        renterProfilePic: "https://placehold.co/40x40?text=BS",
+        roomTitle: "Modern Loft with City View",
+        idVerified: false,
+        bookingAgreementUrl: null,
+        messages: [
+          { from: "renter", text: "Is the loft available next month?" }
+        ],
+        blocked: false
+      },
+      {
+        id: 3,
+        renterName: "Cathy Lee",
+        renterProfilePic: "https://placehold.co/40x40?text=CL",
+        roomTitle: "Quiet Suburban House",
+        idVerified: true,
+        bookingAgreementUrl: "https://example.com/agreements/agreement3.pdf",
+        messages: [
+          { from: "renter", text: "Can I bring my pet?" },
+          { from: "owner", text: "Pets are allowed with prior approval." }
+        ],
+        blocked: true
+      }
+    ];
+
+    const requestsBody = document.getElementById('requestsBody');
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
+    const modalClose = document.getElementById('modalClose');
+
+    function renderRequests() {
+      requestsBody.innerHTML = '';
+      bookingRequests.forEach(req => {
+        const tr = document.createElement('tr');
+        tr.className = req.blocked ? 'bg-red-50' : '';
+        tr.innerHTML = `
+          <td class="px-4 py-3 whitespace-nowrap flex items-center space-x-3">
+            <img src="${req.renterProfilePic}" alt="Profile picture of ${req.renterName}" class="w-10 h-10 rounded-full object-cover" width="40" height="40" />
+            <div>
+              <p class="text-gray-900 font-semibold">${req.renterName}</p>
+              ${req.blocked ? '<p class="text-red-600 text-xs font-semibold">Blocked</p>' : ''}
+            </div>
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-gray-900 font-semibold">${req.roomTitle}</td>
+          <td class="px-4 py-3 whitespace-nowrap">
+            ${req.idVerified ? `<span class="verified-badge" title="ID Verified"><i class="fas fa-check-circle"></i> Verified</span>` : `<span class="text-red-600 font-semibold">Not Verified</span>`}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap">
+            ${req.bookingAgreementUrl ? `<a href="${req.bookingAgreementUrl}" target="_blank" class="text-[#2ea437] underline">View Agreement</a>` : `<span class="text-gray-500 italic">Not uploaded</span>`}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-center space-y-1">
+            <button data-id="${req.id}" class="viewMessagesBtn bg-gray-600 text-white px-3 py-1 rounded text-xs w-full hover:bg-gray-700 transition">View Messages</button>
+            <button data-id="${req.id}" class="reportBtn bg-red-600 text-white px-3 py-1 rounded text-xs w-full hover:bg-red-700 transition">Report</button>
+            <button data-id="${req.id}" class="blockBtn bg-yellow-600 text-white px-3 py-1 rounded text-xs w-full hover:bg-yellow-700 transition">${req.blocked ? 'Unblock' : 'Block'}</button>
+            <button data-id="${req.id}" class="uploadAgreementBtn bg-[#2ea437] text-white px-3 py-1 rounded text-xs w-full hover:bg-[#279230] transition">Upload Agreement</button>
+          </td>
+        `;
+        requestsBody.appendChild(tr);
+      });
+    }
+
+    // Modal open/close helpers
+    function openModal(contentHtml) {
+      modalContent.innerHTML = contentHtml;
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.add('hidden');
+      modalContent.innerHTML = '';
+      document.body.style.overflow = '';
+    }
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Event delegation for buttons
+    requestsBody.addEventListener('click', e => {
+      const target = e.target;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+      const req = bookingRequests.find(r => r.id === parseInt(id));
+      if (!req) return;
+
+      if (target.classList.contains('viewMessagesBtn')) {
+        let messagesHtml = `<h2 class="text-xl font-semibold mb-4">Messages with ${req.renterName}</h2>`;
+        if (req.messages.length === 0) {
+          messagesHtml += '<p class="text-gray-600">No messages yet.</p>';
+        } else {
+          messagesHtml += '<ul class="space-y-3 max-h-64 overflow-y-auto">';
+          req.messages.forEach(m => {
+            messagesHtml += `
+              <li class="p-3 rounded ${m.from === 'owner' ? 'bg-[#2ea437] text-white self-end' : 'bg-gray-200 text-gray-900'}">
+                <strong>${m.from === 'owner' ? 'Owner' : req.renterName}:</strong> ${m.text}
+              </li>
+            `;
+          });
+          messagesHtml += '</ul>';
+        }
+        openModal(messagesHtml);
+      } else if (target.classList.contains('reportBtn')) {
+        const reason = prompt(`Report ${req.renterName} for abusive behavior or other issues. Please provide details:`);
+        if (reason && reason.trim()) {
+          alert(`Report submitted for ${req.renterName}.\nReason: ${reason.trim()}`);
+          // Here you would send report to server
+        }
+      } else if (target.classList.contains('blockBtn')) {
+        if (req.blocked) {
+          if (confirm(`Unblock ${req.renterName}?`)) {
+            req.blocked = false;
+            alert(`${req.renterName} has been unblocked.`);
+            renderRequests();
+          }
+        } else {
+          if (confirm(`Block ${req.renterName}? This will prevent them from sending messages or booking.`)) {
+            req.blocked = true;
+            alert(`${req.renterName} has been blocked.`);
+            renderRequests();
+          }
+        }
+      } else if (target.classList.contains('uploadAgreementBtn')) {
+        const content = `
+          <h2 class="text-xl font-semibold mb-4">Upload Booking Agreement for ${req.renterName}</h2>
+          <form id="uploadAgreementForm" class="space-y-4">
+            <input type="file" id="agreementFile" accept="application/pdf" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#2ea437] file:text-white hover:file:bg-[#279230]" />
+            <div class="flex justify-end space-x-4">
+              <button type="button" id="cancelUpload" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-[#2ea437] text-white rounded-md hover:bg-[#279230] transition">Upload</button>
+            </div>
+          </form>
+        `;
+        openModal(content);
+
+        document.getElementById('cancelUpload').addEventListener('click', closeModal);
+        document.getElementById('uploadAgreementForm').addEventListener('submit', e => {
+          e.preventDefault();
+          const fileInput = document.getElementById('agreementFile');
+          if (fileInput.files.length === 0) {
+            alert('Please select a PDF file to upload.');
+            return;
+          }
+          const file = fileInput.files[0];
+          if (file.type !== 'application/pdf') {
+            alert('Only PDF files are allowed.');
+            return;
+          }
+          // Simulate upload and update URL (in real app, upload to server)
+          const fakeUrl = URL.createObjectURL(file);
+          req.bookingAgreementUrl = fakeUrl;
+          alert(`Booking agreement uploaded for ${req.renterName}.`);
+          closeModal();
+          renderRequests();
+        });
+      }
+    });
+
+    // Header dropdown toggle
+    const accountBtn = document.getElementById('accountBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    accountBtn.addEventListener('click', () => {
+      const isExpanded = accountBtn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        dropdownMenu.classList.remove('hidden');
+        accountBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+    window.addEventListener('click', e => {
+      if (!accountBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    renderRequests();
+  </script>
+</body>
+</html>

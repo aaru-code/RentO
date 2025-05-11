@@ -1,0 +1,250 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reviews, Ratings & Availability - RentO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .star {
+      cursor: pointer;
+      color: #d1d5db; /* gray-300 */
+      font-size: 1.5rem;
+      transition: color 0.2s;
+    }
+    .star.filled {
+      color: #2ea437; /* green */
+    }
+  </style>
+</head>
+<body class="bg-[#f7fcfb] min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-[#2ea437] px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto h-12 flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="#" class="text-white font-extrabold text-lg select-none">RentO</a>
+      </div>
+      <div class="hidden md:flex items-center space-x-6 text-white text-sm font-semibold">
+        <a href="/home.html" class="hover:underline">Home</a>
+        <a href="/about.html" class="hover:underline">About</a>
+        <a href="/contact.html" class="hover:underline">Contact</a>
+        <a href="/team.html" class="hover:underline">Team</a>
+      </div>
+      <div class="relative text-white text-sm font-semibold">
+        <button id="accountBtn" aria-haspopup="true" aria-expanded="false" class="flex items-center space-x-1 focus:outline-none">
+          <i class="fas fa-user-circle text-lg"></i>
+          <span>My Account</span>
+          <i class="fas fa-chevron-down text-xs"></i>
+        </button>
+        <div
+          id="dropdownMenu"
+          class="hidden absolute right-0 mt-1 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-20"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="accountBtn"
+        >
+          <a href="/profile.html" class="flex items-center justify-between px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">
+            Profile
+            <span class="ml-2 text-xs font-normal bg-[#d1f0c0] text-[#2ea437] rounded px-1.5 py-0.5 select-none">Owner</span>
+          </a>
+          <a href="/list.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">My Listings</a>
+          <a href="/add.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Add Room</a>
+          <a href="/request.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Booking Requests</a>
+          <a href="/logout.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6 sm:p-10 bg-white rounded-lg shadow-md mt-8 mb-12">
+    <h1 class="text-2xl font-extrabold text-gray-900 mb-8">Reviews & Ratings</h1>
+
+    <!-- Room Availability Toggle -->
+    <section class="mb-10">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Room Availability</h2>
+      <div class="flex items-center space-x-4">
+        <label for="availabilityToggle" class="font-semibold text-gray-700">Mark Room as Available</label>
+        <input type="checkbox" id="availabilityToggle" class="toggle-checkbox h-6 w-12 rounded-full cursor-pointer appearance-none bg-gray-300 checked:bg-[#2ea437] relative transition-colors duration-300" />
+        <span id="availabilityStatus" class="text-gray-700 font-semibold select-none">Available</span>
+      </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section>
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Rate & Review Renter</h2>
+      <form id="reviewForm" class="space-y-6">
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2" for="rating">Rating</label>
+          <div id="starRating" class="flex space-x-1" aria-label="Star rating" role="radiogroup">
+            <button type="button" class="star" data-value="1" aria-label="1 star" role="radio" aria-checked="false">&#9733;</button>
+            <button type="button" class="star" data-value="2" aria-label="2 stars" role="radio" aria-checked="false">&#9733;</button>
+            <button type="button" class="star" data-value="3" aria-label="3 stars" role="radio" aria-checked="false">&#9733;</button>
+            <button type="button" class="star" data-value="4" aria-label="4 stars" role="radio" aria-checked="false">&#9733;</button>
+            <button type="button" class="star" data-value="5" aria-label="5 stars" role="radio" aria-checked="false">&#9733;</button>
+          </div>
+          <input type="hidden" id="ratingInput" name="rating" required />
+          <p class="text-red-600 text-sm mt-1 hidden" id="errorRating">Please select a rating.</p>
+        </div>
+        <div>
+          <label for="reviewText" class="block text-gray-700 font-semibold mb-2">Review (optional)</label>
+          <textarea id="reviewText" name="reviewText" rows="4" placeholder="Write your review here..." class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]"></textarea>
+        </div>
+        <button type="submit" class="bg-[#2ea437] text-white px-6 py-2 rounded-md font-semibold hover:bg-[#279230] transition">
+          Submit Review
+        </button>
+      </form>
+    </section>
+
+    <!-- Reviews List -->
+    <section class="mt-12">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Previous Reviews</h2>
+      <ul id="reviewsList" class="space-y-6 max-h-96 overflow-y-auto">
+        <!-- Reviews inserted here -->
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    // Header dropdown toggle
+    const accountBtn = document.getElementById('accountBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    accountBtn.addEventListener('click', () => {
+      const isExpanded = accountBtn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        dropdownMenu.classList.remove('hidden');
+        accountBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+    window.addEventListener('click', e => {
+      if (!accountBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Room availability toggle logic
+    const availabilityToggle = document.getElementById('availabilityToggle');
+    const availabilityStatus = document.getElementById('availabilityStatus');
+
+    // Load saved availability from localStorage or default to true
+    let roomAvailable = localStorage.getItem('roomAvailable');
+    if (roomAvailable === null) {
+      roomAvailable = 'true';
+      localStorage.setItem('roomAvailable', roomAvailable);
+    }
+    availabilityToggle.checked = roomAvailable === 'true';
+    availabilityStatus.textContent = availabilityToggle.checked ? 'Available' : 'Unavailable';
+
+    availabilityToggle.addEventListener('change', () => {
+      const isAvailable = availabilityToggle.checked;
+      availabilityStatus.textContent = isAvailable ? 'Available' : 'Unavailable';
+      localStorage.setItem('roomAvailable', isAvailable.toString());
+      alert(`Room marked as ${isAvailable ? 'Available' : 'Unavailable'}.`);
+    });
+
+    // Star rating logic
+    const stars = document.querySelectorAll('#starRating .star');
+    const ratingInput = document.getElementById('ratingInput');
+    const errorRating = document.getElementById('errorRating');
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        const val = parseInt(star.getAttribute('data-value'));
+        ratingInput.value = val;
+        updateStars(val);
+        errorRating.style.display = 'none';
+      });
+      star.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          star.click();
+        }
+      });
+    });
+
+    function updateStars(rating) {
+      stars.forEach(star => {
+        const val = parseInt(star.getAttribute('data-value'));
+        if (val <= rating) {
+          star.classList.add('filled');
+          star.setAttribute('aria-checked', 'true');
+        } else {
+          star.classList.remove('filled');
+          star.setAttribute('aria-checked', 'false');
+        }
+      });
+    }
+
+    // Reviews storage and rendering
+    const reviewForm = document.getElementById('reviewForm');
+    const reviewsList = document.getElementById('reviewsList');
+
+    function loadReviews() {
+      const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+      reviewsList.innerHTML = '';
+      if (reviews.length === 0) {
+        reviewsList.innerHTML = '<li class="text-gray-600">No reviews yet.</li>';
+        return;
+      }
+      reviews.forEach(r => {
+        const li = document.createElement('li');
+        li.className = 'border border-gray-300 rounded-md p-4 bg-gray-50';
+        li.innerHTML = `
+          <div class="flex items-center mb-2">
+            <div class="flex space-x-1 text-[#2ea437]">
+              ${renderStars(r.rating)}
+            </div>
+            <span class="ml-3 text-gray-700 font-semibold">${r.rating} / 5</span>
+          </div>
+          <p class="text-gray-800 whitespace-pre-wrap">${r.reviewText || '<em>No review text provided.</em>'}</p>
+          <p class="text-gray-500 text-xs mt-2">${new Date(r.date).toLocaleString()}</p>
+        `;
+        reviewsList.appendChild(li);
+      });
+    }
+
+    function renderStars(rating) {
+      let starsHtml = '';
+      for (let i = 1; i <= 5; i++) {
+        starsHtml += `<i class="fas fa-star ${i <= rating ? 'filled' : ''}"></i>`;
+      }
+      return starsHtml;
+    }
+
+    reviewForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const ratingVal = parseInt(ratingInput.value);
+      if (!ratingVal || ratingVal < 1 || ratingVal > 5) {
+        errorRating.style.display = 'block';
+        return;
+      }
+      errorRating.style.display = 'none';
+
+      const reviewText = reviewForm.reviewText.value.trim();
+      const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+      reviews.unshift({
+        rating: ratingVal,
+        reviewText,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem('reviews', JSON.stringify(reviews));
+      alert('Review submitted successfully!');
+      reviewForm.reset();
+      ratingInput.value = '';
+      updateStars(0);
+      loadReviews();
+    });
+
+    loadReviews();
+  </script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   RentO Enhanced Landing Page
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* Custom scrollbar for dropdown */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Parallax effect for hero */
+    .parallax {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    /* Fade in on scroll */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, transform;
+    }
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+ </head>
+ <body class="bg-[#f7fcfb] relative font-sans" style="background-image: url('https://www.transparenttextures.com/patterns/linen.png');">
+  <!-- Navbar -->
+  <nav class="bg-[#2ea437] px-4 sm:px-6 lg:px-8 fixed w-full z-30 top-0 shadow">
+   <div class="max-w-7xl mx-auto h-14 flex items-center justify-between">
+    <div class="text-white font-extrabold text-lg select-none flex items-center space-x-2">
+     <span>
+      RentO
+     </span>
+    </div>
+    <ul class="hidden md:flex space-x-6 text-white text-sm font-semibold">
+     <li>
+      <a class="hover:underline flex items-center space-x-1" href="/home.html">
+       <i class="fas fa-home text-xs">
+       </i>
+       <span>
+        Home
+       </span>
+      </a>
+     </li>
+     <li>
+      <a class="hover:underline flex items-center space-x-1" href="/about.html">
+       <i class="fas fa-file-alt text-xs">
+       </i>
+       <span>
+        About
+       </span>
+      </a>
+     </li>
+     <li>
+      <a class="hover:underline flex items-center space-x-1" href="/contact.html">
+       <i class="fas fa-envelope text-xs">
+       </i>
+       <span>
+        Contact
+       </span>
+      </a>
+     </li>
+     <li>
+      <a class="hover:underline flex items-center space-x-1" href="/team.html">
+       <i class="fas fa-search text-xs">
+       </i>
+       <span>
+        Team
+       </span>
+      </a>
+     </li>
+    </ul>
+    <div class="relative group">
+     <button aria-expanded="false" aria-haspopup="true" class="flex items-center space-x-1 text-white font-semibold text-sm focus:outline-none" id="account-menu-button" type="button">
+      <i class="fas fa-user-circle text-lg">
+      </i>
+      <span>
+       My Account
+      </span>
+      <i class="fas fa-chevron-down text-xs">
+      </i>
+     </button>
+     <div aria-labelledby="account-menu-button" aria-orientation="vertical" class="absolute right-0 mt-2 w-44 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-40" role="menu" tabindex="-1">
+      <a class="block px-4 py-2 text-sm text-gray-900 font-semibold border-b border-gray-200 hover:bg-gray-100 flex items-center justify-between" href="#" role="menuitem" tabindex="-1">
+       Profile
+       <span class="ml-1 text-xs font-normal bg-[#d1f0c0] text-[#2ea437] rounded px-1.5 py-0.5 align-middle select-none">
+        Owner
+       </span>
+      </a>
+      <a class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" href="/list.html" role="menuitem" tabindex="-1">
+       My Listings
+      </a>
+      <a class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" href="/add.html" role="menuitem" tabindex="-1">
+       Add Room
+      </a>
+      <a class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" href="/request.html" role="menuitem" tabindex="-1">
+       Booking Requests
+      </a>
+      <a class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 rounded-b-md" href="/logout.html" role="menuitem" tabindex="-1">
+       Logout
+      </a>
+     </div>
+    </div>
+   </div>
+  </nav>
+  <!-- Hero Banner -->
+  <section aria-label="Hero banner with search call to action" class="relative pt-16 md:pt-20">
+   <div class="relative h-[400px] md:h-[500px] w-full overflow-hidden" style="background-image: url('https://placehold.co/1920x500?text=Bright+Furnished+Room+Hero+Image'); background-size: cover; background-position: center;">
+    <img alt="Bright furnished room with natural light and modern decor" class="absolute inset-0 w-full h-full object-cover" height="500" loading="lazy" src="https://storage.googleapis.com/a1aa/image/b3c5caed-1d01-4258-c1b1-9423809d3a4f.jpg" width="1920"/>
+    <div class="absolute inset-0 bg-black bg-opacity-50">
+    </div>
+    <div class="absolute inset-0 flex flex-col justify-center items-start max-w-7xl mx-auto px-6 md:px-12 text-white">
+     <h1 class="text-3xl md:text-5xl font-extrabold max-w-xl leading-tight drop-shadow-lg">
+      Find your perfect room today
+     </h1>
+     <a class="mt-6 inline-block bg-[#2ea437] hover:bg-[#279b31] text-white font-semibold text-lg rounded-md px-6 py-3 shadow-lg drop-shadow-lg transition" href="/search.html">
+      Search Rooms
+     </a>
+    </div>
+   </div>
+  </section>
+  <!-- Behind-the-Scenes Video Tour -->
+  <section aria-label="Behind the scenes room walkthrough video" class="relative mt-12">
+   <div class="relative h-64 md:h-80 w-full overflow-hidden rounded-lg max-w-7xl mx-auto px-6 md:px-0">
+    <video aria-describedby="video-tour-desc" autoplay="" class="w-full h-full object-cover rounded-lg" loop="" muted="" playsinline="">
+     <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm"/>
+     <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4"/>
+     Your browser does not support the video tag.
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent rounded-lg pointer-events-none">
+    </div>
+    <button aria-label="Toggle video sound" class="absolute top-3 right-3 bg-black bg-opacity-50 text-white p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2ea437] z-10" id="video-toggle" title="Toggle sound">
+     <i class="fas fa-volume-mute" id="video-icon">
+     </i>
+    </button>
+   </div>
+   <p class="sr-only" id="video-tour-desc">
+    Background video of a room walkthrough showing camera pan and amenities.
+   </p>
+  </section>
+  <!-- Featured Rooms Carousel -->
+  <section aria-label="Featured rooms carousel" class="mt-16 max-w-7xl mx-auto px-6 md:px-0 fade-in-section">
+   <h2 class="text-2xl font-extrabold text-gray-900 mb-6">
+    Featured Rooms
+   </h2>
+   <div class="relative">
+    <div class="flex space-x-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth" id="carousel">
+     <!-- Slide 1 -->
+     <div class="relative flex-shrink-0 w-72 rounded-lg overflow-hidden shadow-lg snap-center group cursor-pointer">
+      <img alt="Bright studio room with large window and modern furniture" class="w-full h-44 object-cover" height="180" loading="lazy" src="https://storage.googleapis.com/a1aa/image/9540e35c-f951-4b65-3506-9987d18672bf.jpg" width="288"/>
+      <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition duration-300 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100">
+       <a class="bg-[#2ea437] text-white px-4 py-2 rounded-md font-semibold" href="#">
+        View Details
+       </a>
+      </div>
+      <div class="p-4 bg-white">
+       <h3 class="font-semibold text-lg text-gray-900 truncate">
+        Bright Studio
+       </h3>
+       <p class="text-sm text-gray-600">
+        $850 / month
+       </p>
+       <p class="text-sm text-gray-500 truncate">
+        Downtown, Cityville
+       </p>
+      </div>
+     </div>
+     <!-- Slide 2 -->
+     <div class="relative flex-shrink-0 w-72 rounded-lg overflow-hidden shadow-lg snap-center group cursor-pointer">
+      <img alt="Cozy one-bedroom room with warm lighting and comfortable bed" class="w-full h-44 object-cover" height="180" loading="lazy" src="https://storage.googleapis.com/a1aa/image/20ada4d2-b0c6-406d-385f-df6ed4739167.jpg" width="288"/>
+      <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition duration-300 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100">
+       <a class="bg-[#2ea437] text-white px-4 py-2 rounded-md font-semibold" href="#">
+        View Details
+       </a>
+      </div>
+      <div class="p-4 bg-white">
+       <h3 class="font-semibold text-lg text-gray-900 truncate">
+        Cozy 1BR
+       </h3>
+       <p class="text-sm text-gray-600">
+        $950 / month
+       </p>
+       <p class="text-sm text-gray-500 truncate">
+        Uptown, Cityville
+       </p>
+      </div>
+     </div>
+     <!-- Slide 3 -->
+     <div class="relative flex-shrink-0 w-72 rounded-lg overflow-hidden shadow-lg snap-center group cursor-pointer">
+      <img alt="Modern loft room with open floor plan and stylish decor" class="w-full h-44 object-cover" height="180" loading="lazy" src="https://storage.googleapis.com/a1aa/image/007c2fdd-2f9f-4c8e-dc97-eabc63b50812.jpg" width="288"/>
+      <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition duration-300 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100">
+       <a class="bg-[#2ea437] text-white px-4 py-2 rounded-md font-semibold" href="#">
+        View Details
+       </a>
+      </div>
+      <div class="p-4 bg-white">
+       <h3 class="font-semibold text-lg text-gray-900 truncate">
+        Modern Loft
+       </h3>
+       <p class="text-sm text-gray-600">
+        $1,200 / month
+       </p>
+       <p class="text-sm text-gray-500 truncate">
+        Midtown, Cityville
+       </p>
+      </div>
+     </div>
+     <!-- Slide 4 -->
+     <div class="relative flex-shrink-0 w-72 rounded-lg overflow-hidden shadow-lg snap-center group cursor-pointer">
+      <img alt="Sunny apartment room with balcony and city view" class="w-full h-44 object-cover" height="180" loading="lazy" src="https://storage.googleapis.com/a1aa/image/0e9d94e6-0c61-4fd6-9351-487c93e7775b.jpg" width="288"/>
+      <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition duration-300 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100">
+       <a class="bg-[#2ea437] text-white px-4 py-2 rounded-md font-semibold" href="#">
+        View Details
+       </a>
+      </div>
+      <div class="p-4 bg-white">
+       <h3 class="font-semibold text-lg text-gray-900 truncate">
+        Sunny Apartment
+       </h3>
+       <p class="text-sm text-gray-600">
+        $1,100 / month
+       </p>
+       <p class="text-sm text-gray-500 truncate">
+        Eastside, Cityville
+       </p>
+      </div>
+     </div>
+     <!-- Slide 5 -->
+     <div class="relative flex-shrink-0 w-72 rounded-lg overflow-hidden shadow-lg snap-center group cursor-pointer">
+      <img alt="Chic suite room with elegant furnishings and ambient lighting" class="w-full h-44 object-cover" height="180" loading="lazy" src="https://storage.googleapis.com/a1aa/image/96701687-b627-4129-f656-f909c944e828.jpg" width="288"/>
+      <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition duration-300 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100">
+       <a class="bg-[#2ea437] text-white px-4 py-2 rounded-md font-semibold" href="#">
+        View Details
+       </a>
+      </div>
+      <div class="p-4 bg-white">
+       <h3 class="font-semibold text-lg text-gray-900 truncate">
+        Chic Suite
+       </h3>
+       <p class="text-sm text-gray-600">
+        $1,350 / month
+       </p>
+       <p class="text-sm text-gray-500 truncate">
+        West End, Cityville
+       </p>
+      </div>
+     </div>
+    </div>
+    <!-- Carousel Arrows -->
+    <button aria-label="Previous featured room" class="absolute top-1/2 -left-2 transform -translate-y-1/2 bg-white bg-opacity-90 rounded-full p-2 shadow hover:bg-opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2ea437] z-30" id="carousel-prev">
+     <i class="fas fa-chevron-left text-gray-700">
+     </i>
+    </button>
+    <button aria-label="Next featured room" class="absolute top-1/2 -right-2 transform -translate-y-1/2 bg-white bg-opacity-90 rounded-full p-2 shadow hover:bg-opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2ea437] z-30" id="carousel-next">
+     <i class="fas fa-chevron-right text-gray-700">
+     </i>
+    </button>
+   </div>
+  </section>
+  <!-- Video Testimonials / Host Intro -->
+  <section aria-label="Host introduction and testimonial video" class="mt-20 max-w-7xl mx-auto px-6 md:px-0 fade-in-section">
+   <div class="md:flex md:space-x-12 items-center">
+    <div class="md:w-1/2 rounded-lg overflow-hidden shadow-lg">
+     <video aria-describedby="host-video-desc" class="w-full h-auto rounded-lg" controls="" poster="https://placehold.co/600x340?text=Host+Intro+Video+Thumbnail" preload="metadata">
+      <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm"/>
+      <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4"/>
+      Your browser does not support the video tag.
+     </video>
+    </div>
+    <div class="md:w-1/2 mt-6 md:mt-0">
+     <h2 class="text-2xl font-extrabold text-gray-900 mb-4">
+      Meet the Owner
+     </h2>
+     <ul class="list-disc list-inside text-gray-700 space-y-2 text-lg">
+      <li>
+       Personalized service to find your ideal room
+      </li>
+      <li>
+       Quick and easy booking process
+      </li>
+      <li>
+       Trusted by hundreds of happy tenants
+      </li>
+      <li>
+       Dedicated support throughout your stay
+      </li>
+     </ul>
+    </div>
+   </div>
+  </section>
+  <!-- Footer Teaser Video -->
+  <footer aria-label="Footer teaser video and contact info" class="mt-24 bg-gray-100 py-12">
+   <div class="max-w-7xl mx-auto px-6 md:px-0">
+    <h3 class="text-xl font-extrabold text-gray-900 mb-6 text-center">
+     Experience RentO
+    </h3>
+    <div class="relative h-48 md:h-64 rounded-lg overflow-hidden shadow-lg max-w-4xl mx-auto">
+     <video aria-describedby="footer-video-desc" autoplay="" class="w-full h-full object-cover" loop="" muted="" playsinline="">
+      <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/bee.webm" type="video/webm"/>
+      <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/bee.mp4" type="video/mp4"/>
+      Your browser does not support the video tag.
+     </video>
+     <div class="absolute inset-0 bg-gradient-to-t from-gray-100 via-transparent to-transparent pointer-events-none">
+     </div>
+    </div>
+    <div class="mt-6 text-center text-gray-700 text-sm">
+     <p>
+      Contact us: info@rento.com | +91 123 456 7890
+     </p>
+     <p class="mt-1">
+      © 2026 RentO. All rights reserved.
+     </p>
+    </div>
+   </div>
+  </footer>
+  <script>
+   // Video toggle sound button
+    const video = document.querySelector("section[aria-label='Behind the scenes room walkthrough video'] video");
+    const toggleBtn = document.getElementById("video-toggle");
+    const icon = document.getElementById("video-icon");
+
+    toggleBtn.addEventListener("click", () => {
+      if (video.muted) {
+        video.muted = false;
+        icon.classList.remove("fa-volume-mute");
+        icon.classList.add("fa-volume-up");
+      } else {
+        video.muted = true;
+        icon.classList.remove("fa-volume-up");
+        icon.classList.add("fa-volume-mute");
+      }
+    });
+
+    // Carousel functionality
+    const carousel = document.getElementById("carousel");
+    const prevBtn = document.getElementById("carousel-prev");
+    const nextBtn = document.getElementById("carousel-next");
+
+    prevBtn.addEventListener("click", () => {
+      carousel.scrollBy({ left: -288 - 24, behavior: "smooth" });
+    });
+    nextBtn.addEventListener("click", () => {
+      carousel.scrollBy({ left: 288 + 24, behavior: "smooth" });
+    });
+
+    // Fade in on scroll
+    const faders = document.querySelectorAll(".fade-in-section");
+    const appearOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const appearOnScroll = new IntersectionObserver(function (
+      entries,
+      appearOnScroll
+    ) {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        } else {
+          entry.target.classList.add("is-visible");
+          appearOnScroll.unobserve(entry.target);
+        }
+      });
+    },
+    appearOptions);
+
+    faders.forEach((fader) => {
+      appearOnScroll.observe(fader);
+    });
+  </script>
+ </body>
+</html>

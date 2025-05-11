@@ -1,0 +1,423 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Booking Requests - RentO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Scrollbar for modal content */
+    .modal-content {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body class="bg-[#f7fcfb] min-h-screen">
+  <!-- Header -->
+  <header class="bg-[#2ea437] px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto h-12 flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="#" class="text-white font-extrabold text-lg select-none">RentO</a>
+      </div>
+      <div class="hidden md:flex items-center space-x-6 text-white text-sm font-semibold">
+        <a href="/home.html" class="hover:underline">Home</a>
+        <a href="/about.html" class="hover:underline">About</a>
+        <a href="/contact.html" class="hover:underline">Contact</a>
+        <a href="/team.html" class="hover:underline">Team</a>
+      </div>
+      <div class="relative text-white text-sm font-semibold">
+        <button id="accountBtn" aria-haspopup="true" aria-expanded="false" class="flex items-center space-x-1 focus:outline-none">
+          <i class="fas fa-user-circle text-lg"></i>
+          <span>My Account</span>
+          <i class="fas fa-chevron-down text-xs"></i>
+        </button>
+        <div
+          id="dropdownMenu"
+          class="hidden absolute right-0 mt-1 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-20"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="accountBtn"
+        >
+          <a href="/profile.html" class="flex items-center justify-between px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">
+            Profile
+            <span class="ml-2 text-xs font-normal bg-[#d1f0c0] text-[#2ea437] rounded px-1.5 py-0.5 select-none">Owner</span>
+          </a>
+          <a href="/list.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">My Listings</a>
+          <a href="/add.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Add Room</a>
+          <a href="/request.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Booking Requests</a>
+          <a href="/logout.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-4 sm:p-8">
+    <h1 class="text-2xl font-extrabold text-gray-900 mb-6">Booking Requests</h1>
+
+    <!-- Filters & Sorting -->
+    <section class="bg-white rounded-md shadow p-4 mb-6">
+      <form id="filterForm" class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-4 sm:space-y-0">
+        <select id="statusFilter" name="status" class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+        <div class="flex items-center space-x-2">
+          <label for="dateFrom" class="text-gray-700 font-semibold">From:</label>
+          <input type="date" id="dateFrom" name="dateFrom" class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" />
+        </div>
+        <div class="flex items-center space-x-2">
+          <label for="dateTo" class="text-gray-700 font-semibold">To:</label>
+          <input type="date" id="dateTo" name="dateTo" class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" />
+        </div>
+        <select id="sortOrder" name="sortOrder" class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]">
+          <option value="latest">Sort by Latest</option>
+          <option value="oldest">Sort by Oldest</option>
+        </select>
+        <button type="submit" class="bg-[#2ea437] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#279230] transition">
+          Filter
+        </button>
+      </form>
+    </section>
+
+    <!-- Booking Requests Table -->
+    <section class="overflow-x-auto bg-white rounded-md shadow">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Requester</th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Room Title</th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Check-in / Check-out</th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Message</th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Request Date</th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+            <th scope="col" class="px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="requestsBody" class="divide-y divide-gray-200 bg-white">
+          <!-- Booking request rows inserted by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Pagination -->
+    <nav aria-label="Pagination" class="mt-6 flex justify-center space-x-2">
+      <button id="prevPage" class="px-3 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-100 disabled:opacity-50" disabled>
+        Previous
+      </button>
+      <div id="paginationNumbers" class="flex space-x-1"></div>
+      <button id="nextPage" class="px-3 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-100">
+        Next
+      </button>
+    </nav>
+  </main>
+
+  <!-- Modal for View Details & Contact -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-30">
+    <div class="bg-white rounded-lg shadow-lg max-w-lg w-full mx-4 p-6 relative">
+      <button id="modalClose" aria-label="Close modal" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 focus:outline-none">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+      <div id="modalContent" class="modal-content text-gray-800"></div>
+    </div>
+  </div>
+
+  <script>
+    // Sample booking requests data
+    const bookingRequests = [
+      {
+        id: 1,
+        requesterName: "Alice Johnson",
+        requesterProfilePic: "https://placehold.co/40x40?text=AJ",
+        roomTitle: "Cozy Downtown Apartment",
+        checkIn: "2024-06-10",
+        checkOut: "2024-06-15",
+        message: "Looking forward to staying at your place!",
+        requestDate: "2024-05-20",
+        status: "pending",
+        contactInfo: {
+          email: "alice@example.com",
+          phone: "+1 555 123 4567",
+          profileSummary: "Frequent traveler and software engineer."
+        }
+      },
+      {
+        id: 2,
+        requesterName: "Bob Smith",
+        requesterProfilePic: "https://placehold.co/40x40?text=BS",
+        roomTitle: "Modern Loft with City View",
+        checkIn: "2024-06-20",
+        checkOut: "2024-06-25",
+        message: "",
+        requestDate: "2024-05-22",
+        status: "approved",
+        contactInfo: {
+          email: "bob@example.com",
+          phone: "+1 555 987 6543",
+          profileSummary: "Business traveler."
+        }
+      },
+      {
+        id: 3,
+        requesterName: "Cathy Lee",
+        requesterProfilePic: "https://placehold.co/40x40?text=CL",
+        roomTitle: "Quiet Suburban House",
+        checkIn: "2024-07-01",
+        checkOut: "2024-07-10",
+        message: "Is the house pet-friendly?",
+        requestDate: "2024-05-25",
+        status: "rejected",
+        contactInfo: {
+          email: "cathy@example.com",
+          phone: "+1 555 222 3333",
+          profileSummary: "Looking for a quiet place for vacation."
+        }
+      }
+    ];
+
+    // Pagination variables
+    const itemsPerPage = 5;
+    let currentPage = 1;
+    let filteredRequests = [...bookingRequests];
+
+    // Elements
+    const requestsBody = document.getElementById('requestsBody');
+    const prevPageBtn = document.getElementById('prevPage');
+    const nextPageBtn = document.getElementById('nextPage');
+    const paginationNumbers = document.getElementById('paginationNumbers');
+    const filterForm = document.getElementById('filterForm');
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
+    const modalClose = document.getElementById('modalClose');
+
+    // Render booking requests for current page
+    function renderRequests() {
+      requestsBody.innerHTML = '';
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageItems = filteredRequests.slice(start, end);
+
+      if (pageItems.length === 0) {
+        requestsBody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-gray-500">No booking requests found.</td></tr>`;
+        return;
+      }
+
+      pageItems.forEach(req => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50';
+
+        tr.innerHTML = `
+          <td class="px-4 py-3 whitespace-nowrap flex items-center space-x-3">
+            <img src="${req.requesterProfilePic}" alt="Profile picture of ${req.requesterName}" class="w-10 h-10 rounded-full object-cover" width="40" height="40" />
+            <span class="text-gray-900 font-semibold">${req.requesterName}</span>
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-gray-900 font-semibold">${req.roomTitle}</td>
+          <td class="px-4 py-3 whitespace-nowrap text-gray-700">${req.checkIn} to ${req.checkOut}</td>
+          <td class="px-4 py-3 whitespace-nowrap text-gray-700 max-w-xs truncate" title="${req.message || 'No message'}">${req.message || 'No message'}</td>
+          <td class="px-4 py-3 whitespace-nowrap text-gray-600 text-sm">${req.requestDate}</td>
+          <td class="px-4 py-3 whitespace-nowrap">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+              req.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+              req.status === 'approved' ? 'bg-green-100 text-green-800' :
+              'bg-red-100 text-red-800'
+            } capitalize">${req.status}</span>
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-center space-y-1">
+            <button data-id="${req.id}" class="approveBtn bg-green-600 text-white px-3 py-1 rounded text-xs w-full hover:bg-green-700 transition" ${req.status !== 'pending' ? 'disabled class="opacity-50 cursor-not-allowed"' : ''}>Approve</button>
+            <button data-id="${req.id}" class="rejectBtn bg-red-600 text-white px-3 py-1 rounded text-xs w-full hover:bg-red-700 transition" ${req.status !== 'pending' ? 'disabled class="opacity-50 cursor-not-allowed"' : ''}>Reject</button>
+            <button data-id="${req.id}" class="viewBtn bg-gray-600 text-white px-3 py-1 rounded text-xs w-full hover:bg-gray-700 transition">View Details</button>
+            <button data-id="${req.id}" class="contactBtn bg-blue-600 text-white px-3 py-1 rounded text-xs w-full hover:bg-blue-700 transition">Contact Renter</button>
+          </td>
+        `;
+        requestsBody.appendChild(tr);
+      });
+
+      renderPagination();
+    }
+
+    // Render pagination numbers
+    function renderPagination() {
+      paginationNumbers.innerHTML = '';
+      const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = `px-3 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-100 ${
+          i === currentPage ? 'bg-[#2ea437] text-white border-[#2ea437]' : ''
+        }`;
+        btn.addEventListener('click', () => {
+          currentPage = i;
+          renderRequests();
+        });
+        paginationNumbers.appendChild(btn);
+      }
+
+      prevPageBtn.disabled = currentPage === 1;
+      nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+    }
+
+    // Filter and sort function
+    function applyFilters() {
+      const status = filterForm.status.value;
+      const dateFrom = filterForm.dateFrom.value;
+      const dateTo = filterForm.dateTo.value;
+      const sortOrder = filterForm.sortOrder.value;
+
+      filteredRequests = bookingRequests.filter(req => {
+        const matchesStatus = status ? req.status === status : true;
+        const reqDate = new Date(req.requestDate);
+        const fromDate = dateFrom ? new Date(dateFrom) : null;
+        const toDate = dateTo ? new Date(dateTo) : null;
+        const matchesDateFrom = fromDate ? reqDate >= fromDate : true;
+        const matchesDateTo = toDate ? reqDate <= toDate : true;
+        return matchesStatus && matchesDateFrom && matchesDateTo;
+      });
+
+      filteredRequests.sort((a, b) => {
+        const dateA = new Date(a.requestDate);
+        const dateB = new Date(b.requestDate);
+        return sortOrder === 'oldest' ? dateA - dateB : dateB - dateA;
+      });
+
+      currentPage = 1;
+      renderRequests();
+    }
+
+    // Event listeners for pagination buttons
+    prevPageBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderRequests();
+      }
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderRequests();
+      }
+    });
+
+    // Filter form submit
+    filterForm.addEventListener('submit', e => {
+      e.preventDefault();
+      applyFilters();
+    });
+
+    // Modal open/close helpers
+    function openModal(contentHtml) {
+      modalContent.innerHTML = contentHtml;
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.add('hidden');
+      modalContent.innerHTML = '';
+      document.body.style.overflow = '';
+    }
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Action buttons event delegation
+    requestsBody.addEventListener('click', e => {
+      const target = e.target;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+      const req = bookingRequests.find(r => r.id === parseInt(id));
+      if (!req) return;
+
+      if (target.classList.contains('approveBtn')) {
+        if (confirm(`Approve booking request from ${req.requesterName}?`)) {
+          req.status = 'approved';
+          alert('Booking request approved.');
+          renderRequests();
+        }
+      } else if (target.classList.contains('rejectBtn')) {
+        const reason = prompt('Optional: Enter a message to the requester for rejection:', '');
+        req.status = 'rejected';
+        if (reason) {
+          req.message += `\n\nOwner message: ${reason}`;
+        }
+        alert('Booking request rejected.');
+        renderRequests();
+      } else if (target.classList.contains('viewBtn')) {
+        const content = `
+          <h2 class="text-xl font-semibold mb-4">Booking Request Details</h2>
+          <div class="flex items-center space-x-4 mb-4">
+            <img src="${req.requesterProfilePic}" alt="Profile picture of ${req.requesterName}" class="w-16 h-16 rounded-full object-cover" />
+            <div>
+              <p class="font-semibold text-lg">${req.requesterName}</p>
+              <p class="text-sm text-gray-600">${req.contactInfo.profileSummary}</p>
+            </div>
+          </div>
+          <p><strong>Room Title:</strong> ${req.roomTitle}</p>
+          <p><strong>Check-in:</strong> ${req.checkIn}</p>
+          <p><strong>Check-out:</strong> ${req.checkOut}</p>
+          <p class="mt-3"><strong>Message:</strong><br />${req.message ? req.message.replace(/\n/g, '<br />') : 'No message provided.'}</p>
+          <p class="mt-3"><strong>Contact Info:</strong><br />Email: <a href="mailto:${req.contactInfo.email}" class="text-blue-600 underline">${req.contactInfo.email}</a><br />Phone: <a href="tel:${req.contactInfo.phone}" class="text-blue-600 underline">${req.contactInfo.phone}</a></p>
+        `;
+        openModal(content);
+      } else if (target.classList.contains('contactBtn')) {
+        const content = `
+          <h2 class="text-xl font-semibold mb-4">Contact Renter: ${req.requesterName}</h2>
+          <form id="contactForm" class="space-y-4">
+            <textarea id="contactMessage" rows="5" placeholder="Write your message here..." class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" required></textarea>
+            <div class="flex justify-end space-x-4">
+              <button type="button" id="cancelContact" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-[#2ea437] text-white rounded-md hover:bg-[#279230] transition">Send</button>
+            </div>
+          </form>
+        `;
+        openModal(content);
+
+        document.getElementById('cancelContact').addEventListener('click', closeModal);
+        document.getElementById('contactForm').addEventListener('submit', (ev) => {
+          ev.preventDefault();
+          const msg = document.getElementById('contactMessage').value.trim();
+          if (!msg) {
+            alert('Please enter a message.');
+            return;
+          }
+          alert(`Message sent to ${req.requesterName}:\n\n${msg}`);
+          closeModal();
+        });
+      }
+    });
+
+    // Header dropdown toggle
+    const accountBtn = document.getElementById('accountBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    accountBtn.addEventListener('click', () => {
+      const isExpanded = accountBtn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        dropdownMenu.classList.remove('hidden');
+        accountBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+    window.addEventListener('click', e => {
+      if (!accountBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Initial render
+    renderRequests();
+  </script>
+</body>
+</html>

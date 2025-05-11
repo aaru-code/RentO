@@ -1,0 +1,233 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat & Calendar - RentO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Scrollbar for chat messages */
+    #chatMessages {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    /* Scrollbar for calendar */
+    #calendar {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body class="bg-[#f7fcfb] min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-[#2ea437] px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto h-12 flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="#" class="text-white font-extrabold text-lg select-none">RentO</a>
+      </div>
+      <div class="hidden md:flex items-center space-x-6 text-white text-sm font-semibold">
+        <a href="/home.html" class="hover:underline">Home</a>
+        <a href="/about.html" class="hover:underline">About</a>
+        <a href="/contact.html" class="hover:underline">Contact</a>
+        <a href="/team.html" class="hover:underline">Team</a>
+      </div>
+      <div class="relative text-white text-sm font-semibold">
+        <button id="accountBtn" aria-haspopup="true" aria-expanded="false" class="flex items-center space-x-1 focus:outline-none">
+          <i class="fas fa-user-circle text-lg"></i>
+          <span>My Account</span>
+          <i class="fas fa-chevron-down text-xs"></i>
+        </button>
+        <div
+          id="dropdownMenu"
+          class="hidden absolute right-0 mt-1 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-20"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="accountBtn"
+        >
+          <a href="/profile.html" class="flex items-center justify-between px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">
+            Profile
+            <span class="ml-2 text-xs font-normal bg-[#d1f0c0] text-[#2ea437] rounded px-1.5 py-0.5 select-none">Owner</span>
+          </a>
+          <a href="/list.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">My Listings</a>
+          <a href="/add.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Add Room</a>
+          <a href="/request.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Booking Requests</a>
+          <a href="/login.html" class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100" role="menuitem">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-4 sm:p-8 flex-grow flex flex-col lg:flex-row gap-8">
+    <!-- Chat Section -->
+    <section class="bg-white rounded-md shadow-md flex flex-col w-full lg:w-1/2 h-[600px]">
+      <header class="px-6 py-4 border-b border-gray-200 font-semibold text-gray-900 flex items-center justify-between">
+        <span>Chat with Renter</span>
+        <button id="autoTranslateToggle" class="text-sm text-gray-600 hover:text-[#2ea437] focus:outline-none" title="Toggle Auto-Translate">
+          <i class="fas fa-language mr-1"></i> Auto-Translate: <span id="autoTranslateStatus">Off</span>
+        </button>
+      </header>
+      <div id="chatMessages" class="flex-grow p-6 space-y-4 overflow-y-auto text-gray-800">
+        <!-- Messages inserted here -->
+      </div>
+      <form id="chatForm" class="flex border-t border-gray-200 p-4 space-x-4">
+        <input type="text" id="chatInput" placeholder="Type your message..." class="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2ea437]" autocomplete="off" />
+        <button type="submit" class="bg-[#2ea437] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#279230] transition">
+          Send
+        </button>
+      </form>
+    </section>
+
+    <!-- Calendar Section -->
+    <section class="bg-white rounded-md shadow-md w-full lg:w-1/2 h-[600px] flex flex-col">
+      <header class="px-6 py-4 border-b border-gray-200 font-semibold text-gray-900 flex items-center justify-between">
+        <span>Room Availability Calendar</span>
+        <button id="googleSyncBtn" class="text-sm text-gray-600 hover:text-[#2ea437] focus:outline-none flex items-center space-x-1" title="Sync with Google Calendar">
+          <i class="fab fa-google"></i><span>Sync</span>
+        </button>
+      </header>
+      <div id="calendar" class="p-6 overflow-y-auto flex-grow">
+        <!-- Simple calendar grid -->
+        <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center text-sm text-gray-700"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Header dropdown toggle
+    const accountBtn = document.getElementById('accountBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    accountBtn.addEventListener('click', () => {
+      const isExpanded = accountBtn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        dropdownMenu.classList.remove('hidden');
+        accountBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+    window.addEventListener('click', e => {
+      if (!accountBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.add('hidden');
+        accountBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Chat system
+    const chatMessages = document.getElementById('chatMessages');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const autoTranslateToggle = document.getElementById('autoTranslateToggle');
+    const autoTranslateStatus = document.getElementById('autoTranslateStatus');
+
+    let autoTranslateEnabled = false;
+
+    // Sample chat messages
+    let messages = [
+      { sender: 'renter', text: 'Hi, is the room available next weekend?' },
+      { sender: 'owner', text: 'Yes, it is available. Would you like to book?' }
+    ];
+
+    function renderMessages() {
+      chatMessages.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = `max-w-[75%] px-4 py-2 rounded-lg break-words ${
+          msg.sender === 'owner' ? 'bg-[#2ea437] text-white self-end' : 'bg-gray-200 text-gray-900 self-start'
+        }`;
+        div.textContent = autoTranslateEnabled ? translateText(msg.text) : msg.text;
+        chatMessages.appendChild(div);
+      });
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Dummy translate function (for demo)
+    function translateText(text) {
+      // This is a placeholder. In real app, integrate translation API.
+      return text + ' (translated)';
+    }
+
+    autoTranslateToggle.addEventListener('click', () => {
+      autoTranslateEnabled = !autoTranslateEnabled;
+      autoTranslateStatus.textContent = autoTranslateEnabled ? 'On' : 'Off';
+      renderMessages();
+    });
+
+    chatForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+      messages.push({ sender: 'owner', text });
+      chatInput.value = '';
+      renderMessages();
+
+      // Simulate renter reply after 1.5s
+      setTimeout(() => {
+        messages.push({ sender: 'renter', text: 'Thanks for the info!' });
+        renderMessages();
+      }, 1500);
+    });
+
+    renderMessages();
+
+    // Simple calendar generation for current month
+    const calendarGrid = document.getElementById('calendarGrid');
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    function generateCalendar(year, month) {
+      calendarGrid.innerHTML = '';
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const startDay = firstDay.getDay(); // Sunday=0
+      const daysInMonth = lastDay.getDate();
+
+      // Weekday headers
+      const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      weekdays.forEach(day => {
+        const div = document.createElement('div');
+        div.className = 'font-semibold text-gray-700';
+        div.textContent = day;
+        calendarGrid.appendChild(div);
+      });
+
+      // Empty cells before first day
+      for (let i = 0; i < startDay; i++) {
+        const emptyDiv = document.createElement('div');
+        calendarGrid.appendChild(emptyDiv);
+      }
+
+      // Days with availability (for demo, random booked days)
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateDiv = document.createElement('div');
+        dateDiv.className = 'p-2 rounded cursor-pointer select-none';
+        const isBooked = Math.random() < 0.2; // 20% chance booked
+        dateDiv.textContent = day;
+        if (isBooked) {
+          dateDiv.classList.add('bg-red-500', 'text-white', 'font-semibold');
+          dateDiv.title = 'Booked';
+        } else {
+          dateDiv.classList.add('bg-green-200', 'text-green-900');
+          dateDiv.title = 'Available';
+        }
+        calendarGrid.appendChild(dateDiv);
+      }
+    }
+
+    generateCalendar(year, month);
+
+    // Google Calendar Sync button (placeholder)
+    const googleSyncBtn = document.getElementById('googleSyncBtn');
+    googleSyncBtn.addEventListener('click', () => {
+      alert('Google Calendar sync feature is not implemented in this demo.');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>RentO - Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <style>
+    body {
+      background-color: #f9fafb;
+    }
+    .container {
+      max-width: 420px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem 2.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    }
+    h1 {
+      font-weight: 800;
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #16a34a;
+    }
+    .tab-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .tab-button {
+      flex: 1;
+      padding: 0.5rem 0;
+      font-weight: 700;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      text-align: center;
+      color: #4b5563;
+      transition: border-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+    .tab-button.active {
+      border-color: #16a34a;
+      color: #16a34a;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    label {
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="text"],
+    input[type="number"] {
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 1rem;
+      width: 100%;
+      outline-offset: 2px;
+      outline-color: #22c55e;
+      transition: border-color 0.2s ease;
+    }
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="tel"]:focus,
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: #22c55e;
+      outline: none;
+    }
+    button.submit-btn {
+      background-color: #16a34a;
+      color: white;
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-top: 0.5rem;
+    }
+    button.submit-btn:hover {
+      background-color: #15803d;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.5rem 0;
+      color: #6b7280;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #d1d5db;
+      margin: 0 0.75rem;
+    }
+    .social-login {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      border-radius: 0.375rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .social-btn.google {
+      background-color: #f44336;
+      color: white;
+    }
+    .social-btn.google:hover {
+      background-color: #d32f2f;
+    }
+    .social-btn.facebook {
+      background-color: #1877f2;
+      color: white;
+    }
+    .social-btn.facebook:hover {
+      background-color: #145dbf;
+    }
+    .otp-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .otp-inputs {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .otp-inputs input {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.5rem;
+      text-align: center;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      outline-offset: 2px;
+      outline-color: #22c55e;
+      transition: border-color 0.2s ease;
+    }
+    .otp-inputs input:focus {
+      border-color: #22c55e;
+      outline: none;
+    }
+    .resend-otp {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #16a34a;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+    }
+    .resend-otp:hover {
+      text-decoration: underline;
+    }
+    .message {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #dc2626;
+      font-weight: 600;
+      min-height: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main" aria-label="Sign up page">
+    <h1>RentO Sign Up</h1>
+    <div class="tab-buttons" role="tablist">
+      <button class="tab-button active" role="tab" aria-selected="true" aria-controls="emailTab" id="emailTabBtn" tabindex="0">Email & Password</button>
+      <button class="tab-button" role="tab" aria-selected="false" aria-controls="phoneTab" id="phoneTabBtn" tabindex="-1">Phone & OTP</button>
+    </div>
+
+    <!-- Email & Password Sign Up -->
+    <section id="emailTab" role="tabpanel" aria-labelledby="emailTabBtn">
+      <form id="emailForm" novalidate>
+        <label for="emailInput">Email Address</label>
+        <input type="email" id="emailInput" name="email" placeholder="you@example.com" required autocomplete="email" aria-required="true" />
+        <label for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" name="password" placeholder="Enter password" required autocomplete="new-password" aria-required="true" minlength="6" />
+        <button type="submit" class="submit-btn" aria-label="Sign up with email and password">Sign Up</button>
+      </form>
+      <div class="divider" aria-hidden="true">OR</div>
+      <div class="social-login" role="group" aria-label="Social login options">
+        <button class="social-btn google" id="googleLogin" aria-label="Sign up with Google">
+          <i class="fab fa-google"></i> Google
+        </button>
+        <button class="social-btn facebook" id="facebookLogin" aria-label="Sign up with Facebook">
+          <i class="fab fa-facebook-f"></i> Facebook
+        </button>
+      </div>
+    </section>
+
+    <!-- Phone & OTP Sign Up -->
+    <section id="phoneTab" role="tabpanel" aria-labelledby="phoneTabBtn" hidden>
+      <form id="phoneForm" novalidate>
+        <label for="phoneInput">Phone Number</label>
+        <input type="tel" id="phoneInput" name="phone" placeholder="+91 9876543210" required pattern="^\+?\d{10,15}$" aria-required="true" />
+        <button type="submit" class="submit-btn" aria-label="Send OTP to phone number">Send OTP</button>
+      </form>
+      <form id="otpForm" class="otp-section" hidden>
+        <label for="otp1">Enter OTP</label>
+        <div class="otp-inputs" role="group" aria-label="OTP input fields">
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="otp1" aria-label="OTP digit 1" required />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="otp2" aria-label="OTP digit 2" required />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="otp3" aria-label="OTP digit 3" required />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="otp4" aria-label="OTP digit 4" required />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="otp5" aria-label="OTP digit 5" required />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="otp6" aria-label="OTP digit 6" required />
+        </div>
+        <button type="submit" class="submit-btn" aria-label="Verify OTP and create account">Verify OTP & Sign Up</button>
+        <div class="resend-otp" id="resendOtp" tabindex="0" role="button" aria-label="Resend OTP" aria-live="polite" aria-atomic="true" hidden>Resend OTP</div>
+        <div class="message" id="otpMessage" aria-live="assertive"></div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Tab switching logic
+    const emailTabBtn = document.getElementById("emailTabBtn");
+    const phoneTabBtn = document.getElementById("phoneTabBtn");
+    const emailTab = document.getElementById("emailTab");
+    const phoneTab = document.getElementById("phoneTab");
+
+    function switchTab(toEmail) {
+      if (toEmail) {
+        emailTabBtn.classList.add("active");
+        emailTabBtn.setAttribute("aria-selected", "true");
+        emailTabBtn.tabIndex = 0;
+        phoneTabBtn.classList.remove("active");
+        phoneTabBtn.setAttribute("aria-selected", "false");
+        phoneTabBtn.tabIndex = -1;
+        emailTab.hidden = false;
+        phoneTab.hidden = true;
+      } else {
+        phoneTabBtn.classList.add("active");
+        phoneTabBtn.setAttribute("aria-selected", "true");
+        phoneTabBtn.tabIndex = 0;
+        emailTabBtn.classList.remove("active");
+        emailTabBtn.setAttribute("aria-selected", "false");
+        emailTabBtn.tabIndex = -1;
+        phoneTab.hidden = false;
+        emailTab.hidden = true;
+      }
+    }
+
+    emailTabBtn.addEventListener("click", () => switchTab(true));
+    phoneTabBtn.addEventListener("click", () => switchTab(false));
+
+    // Email form submission (mock)
+    const emailForm = document.getElementById("emailForm");
+    emailForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = emailForm.email.value.trim();
+      const password = emailForm.password.value.trim();
+      if (!email || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
+      alert(`Signed up with Email: ${email}`);
+      emailForm.reset();
+    });
+
+    // Social login buttons (mock)
+    document.getElementById("googleLogin").addEventListener("click", () => {
+      alert("Google login clicked (mock).");
+    });
+    document.getElementById("facebookLogin").addEventListener("click", () => {
+      alert("Facebook login clicked (mock).");
+    });
+
+    // Phone & OTP logic
+    const phoneForm = document.getElementById("phoneForm");
+    const otpForm = document.getElementById("otpForm");
+    const resendOtpBtn = document.getElementById("resendOtp");
+    const otpMessage = document.getElementById("otpMessage");
+    let otpSent = false;
+    let otpTimer = null;
+    let otpCountdown = 30;
+
+    phoneForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const phone = phoneForm.phone.value.trim();
+      const phonePattern = /^\+?\d{10,15}$/;
+      if (!phonePattern.test(phone)) {
+        alert("Please enter a valid phone number.");
+        return;
+      }
+      // Mock sending OTP
+      otpSent = true;
+      otpMessage.textContent = "OTP sent to " + phone;
+      phoneForm.hidden = true;
+      otpForm.hidden = false;
+      resendOtpBtn.hidden = true;
+      startOtpCountdown();
+      clearOtpInputs();
+      otpForm.otp1.focus();
+    });
+
+    otpForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!otpSent) {
+        otpMessage.textContent = "Please request an OTP first.";
+        return;
+      }
+      const otpInputs = Array.from(otpForm.querySelectorAll("input"));
+      const otpValue = otpInputs.map((input) => input.value.trim()).join("");
+      if (otpValue.length !== 6 || !/^\d{6}$/.test(otpValue)) {
+        otpMessage.textContent = "Please enter a valid 6-digit OTP.";
+        return;
+      }
+      // Mock OTP verification success
+      otpMessage.style.color = "#16a34a";
+      otpMessage.textContent = "OTP verified! Account created successfully.";
+      setTimeout(() => {
+        otpForm.reset();
+        phoneForm.reset();
+        otpForm.hidden = true;
+        phoneForm.hidden = false;
+        otpMessage.textContent = "";
+        otpMessage.style.color = "#dc2626";
+        otpSent = false;
+        clearOtpInputs();
+      }, 3000);
+    });
+
+    resendOtpBtn.addEventListener("click", () => {
+      if (otpCountdown === 0) {
+        otpMessage.textContent = "OTP resent.";
+        otpCountdown = 30;
+        resendOtpBtn.hidden = true;
+        startOtpCountdown();
+        clearOtpInputs();
+        otpForm.otp1.focus();
+      }
+    });
+
+    function startOtpCountdown() {
+      otpCountdown = 30;
+      resendOtpBtn.hidden = true;
+      otpMessage.textContent = `You can resend OTP in ${otpCountdown} seconds.`;
+      otpTimer = setInterval(() => {
+        otpCountdown--;
+        if (otpCountdown > 0) {
+          otpMessage.textContent = `You can resend OTP in ${otpCountdown} seconds.`;
+        } else {
+          clearInterval(otpTimer);
+          otpMessage.textContent = "";
+          resendOtpBtn.hidden = false;
+        }
+      }, 1000);
+    }
+
+    function clearOtpInputs() {
+      const otpInputs = Array.from(otpForm.querySelectorAll("input"));
+      otpInputs.forEach((input) => (input.value = ""));
+    }
+
+    // Auto move focus on OTP inputs
+    const otpInputs = Array.from(document.querySelectorAll(".otp-inputs input"));
+    otpInputs.forEach((input, idx) => {
+      input.addEventListener("input", () => {
+        if (input.value.length === 1 && idx < otpInputs.length - 1) {
+          otpInputs[idx + 1].focus();
+        }
+      });
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && input.value === "" && idx > 0) {
+          otpInputs[idx - 1].focus();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

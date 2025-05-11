@@ -1,0 +1,392 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>RentO - Contact Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f9fafb;
+    }
+    .container {
+      max-width: 700px;
+      margin: 2rem auto 6rem;
+      background: white;
+      padding: 2rem 2.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #16a34a;
+    }
+    label {
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 1rem;
+      width: 100%;
+      outline-offset: 2px;
+      outline-color: #22c55e;
+      transition: border-color 0.2s ease;
+      resize: vertical;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #22c55e;
+      outline: none;
+    }
+    textarea {
+      min-height: 100px;
+    }
+    button.submit-btn {
+      background-color: #16a34a;
+      color: white;
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-top: 1rem;
+      width: 100%;
+    }
+    button.submit-btn:hover {
+      background-color: #15803d;
+    }
+    /* Chatbot styles */
+    #chatbot {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 320px;
+      max-height: 480px;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      z-index: 1000;
+    }
+    #chatbot-header {
+      background-color: #16a34a;
+      color: white;
+      padding: 0.75rem 1rem;
+      font-weight: 700;
+      font-size: 1.125rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    #chatbot-messages {
+      flex-grow: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      background: #f3f4f6;
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+    .message {
+      margin-bottom: 1rem;
+      max-width: 80%;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      clear: both;
+      word-wrap: break-word;
+    }
+    .message.bot {
+      background-color: #d1fae5;
+      color: #065f46;
+      float: left;
+    }
+    .message.user {
+      background-color: #22c55e;
+      color: white;
+      float: right;
+      text-align: right;
+    }
+    #chatbot-input-area {
+      display: flex;
+      border-top: 1px solid #d1d5db;
+      padding: 0.5rem;
+      background: white;
+    }
+    #chatbot-input {
+      flex-grow: 1;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 1rem;
+      outline-offset: 2px;
+      outline-color: #22c55e;
+      transition: border-color 0.2s ease;
+    }
+    #chatbot-input:focus {
+      border-color: #22c55e;
+      outline: none;
+    }
+    #chatbot-send-btn {
+      background-color: #16a34a;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 0 1rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.2s ease;
+    }
+    #chatbot-send-btn:hover {
+      background-color: #15803d;
+    }
+    /* Scrollbar for messages */
+    #chatbot-messages::-webkit-scrollbar {
+      width: 6px;
+    }
+    #chatbot-messages::-webkit-scrollbar-thumb {
+      background-color: rgba(34, 197, 94, 0.5);
+      border-radius: 3px;
+    }
+    /* Responsive */
+    @media (max-width: 400px) {
+      #chatbot {
+        width: 90vw;
+        max-height: 60vh;
+        bottom: 1rem;
+        right: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main" aria-label="Contact page">
+    <h1>Contact Us</h1>
+    <form id="contactForm" novalidate>
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required aria-required="true" />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required aria-required="true" />
+
+      <label for="contact">Contact Number</label>
+      <input type="text" id="contact" name="contact" placeholder="+91 9876543210" required aria-required="true" pattern="^\+?\d{10,15}$" />
+
+      <label for="place">Place</label>
+      <input type="text" id="place" name="place" placeholder="City or locality" required aria-required="true" />
+
+      <label for="state">State</label>
+      <select id="state" name="state" required aria-required="true">
+        <option value="" disabled selected>Select state</option>
+        <option>Andhra Pradesh</option>
+        <option>Arunachal Pradesh</option>
+        <option>Assam</option>
+        <option>Bihar</option>
+        <option>Chhattisgarh</option>
+        <option>Goa</option>
+        <option>Gujarat</option>
+        <option>Haryana</option>
+        <option>Himachal Pradesh</option>
+        <option>Jharkhand</option>
+        <option>Karnataka</option>
+        <option>Kerala</option>
+        <option>Madhya Pradesh</option>
+        <option>Maharashtra</option>
+        <option>Manipur</option>
+        <option>Meghalaya</option>
+        <option>Mizoram</option>
+        <option>Nagaland</option>
+        <option>Odisha</option>
+        <option>Punjab</option>
+        <option>Rajasthan</option>
+        <option>Sikkim</option>
+        <option>Tamil Nadu</option>
+        <option>Telangana</option>
+        <option>Tripura</option>
+        <option>Uttar Pradesh</option>
+        <option>Uttarakhand</option>
+        <option>West Bengal</option>
+        <option>Delhi</option>
+        <option>Jammu and Kashmir</option>
+        <option>Ladakh</option>
+        <option>Puducherry</option>
+      </select>
+
+      <label for="country">Country</label>
+      <input type="text" id="country" name="country" placeholder="Country" required aria-required="true" value="India" />
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Write your message here..." required aria-required="true"></textarea>
+
+      <button type="submit" class="submit-btn" aria-label="Send message">Send Message</button>
+      <p id="formStatus" role="alert" class="mt-2 text-center font-semibold"></p>
+    </form>
+  </main>
+
+  <!-- Chatbot -->
+  <section id="chatbot" aria-label="Customer support chatbot" role="region" aria-live="polite" aria-atomic="true">
+    <header id="chatbot-header" tabindex="0" aria-controls="chatbot-messages" aria-expanded="true" aria-label="Toggle chatbot">
+      RentO Chatbot
+      <button id="chatbot-toggle" aria-label="Close chatbot" title="Close chatbot" style="background:none;border:none;color:white;font-size:1.25rem;cursor:pointer;">×</button>
+    </header>
+    <div id="chatbot-messages" tabindex="0" aria-live="polite" aria-atomic="true" role="log" aria-relevant="additions"></div>
+    <form id="chatbot-form" aria-label="Chat input area" style="display:flex; border-top:1px solid #d1d5db; padding:0.5rem; background:#fff;">
+      <input id="chatbot-input" type="text" placeholder="Type your message..." aria-label="Type your message" autocomplete="off" required style="flex-grow:1; border:1px solid #d1d5db; border-radius:0.375rem; padding:0.5rem 0.75rem; font-size:1rem; outline-offset:2px; outline-color:#22c55e; transition:border-color 0.2s ease;" />
+      <button type="submit" id="chatbot-send-btn" aria-label="Send message" style="background-color:#16a34a; color:white; border:none; border-radius:0.375rem; padding:0 1rem; margin-left:0.5rem; cursor:pointer; font-weight:700; transition:background-color 0.2s ease;">Send</button>
+    </form>
+  </section>
+
+  <script>
+    // Contact form submission using EmailJS (or similar) - here we use EmailJS as example
+    // You need to create an EmailJS account and replace userID, serviceID, templateID accordingly
+    // For demonstration, we'll simulate sending email with alert and reset form
+
+    const contactForm = document.getElementById("contactForm");
+    const formStatus = document.getElementById("formStatus");
+
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Basic validation
+      if (!contactForm.checkValidity()) {
+        formStatus.textContent = "Please fill all required fields correctly.";
+        formStatus.style.color = "#dc2626";
+        return;
+      }
+
+      // Collect form data
+      const formData = {
+        name: contactForm.name.value.trim(),
+        email: contactForm.email.value.trim(),
+        contact: contactForm.contact.value.trim(),
+        place: contactForm.place.value.trim(),
+        state: contactForm.state.value,
+        country: contactForm.country.value.trim(),
+        message: contactForm.message.value.trim(),
+      };
+
+      // Simulate sending email to aaru94395@gmail.com
+      formStatus.textContent = "Sending message...";
+      formStatus.style.color = "#16a34a";
+
+      // Simulate delay
+      setTimeout(() => {
+        alert(`Message sent to aaru94395@gmail.com:\n\nName: ${formData.name}\nEmail: ${formData.email}\nContact: ${formData.contact}\nPlace: ${formData.place}\nState: ${formData.state}\nCountry: ${formData.country}\nMessage: ${formData.message}`);
+        formStatus.textContent = "Message sent successfully!";
+        contactForm.reset();
+        setTimeout(() => {
+          formStatus.textContent = "";
+        }, 5000);
+      }, 1500);
+    });
+
+    // Chatbot functionality
+    const chatbot = document.getElementById("chatbot");
+    const chatbotHeader = document.getElementById("chatbot-header");
+    const chatbotToggleBtn = document.getElementById("chatbot-toggle");
+    const chatbotMessages = document.getElementById("chatbot-messages");
+    const chatbotForm = document.getElementById("chatbot-form");
+    const chatbotInput = document.getElementById("chatbot-input");
+
+    // Toggle chatbot visibility
+    chatbotToggleBtn.addEventListener("click", () => {
+      chatbot.style.display = "none";
+    });
+    chatbotHeader.addEventListener("click", () => {
+      if (chatbot.style.display === "none") {
+        chatbot.style.display = "flex";
+        chatbotInput.focus();
+      } else {
+        chatbot.style.display = "none";
+      }
+    });
+
+    // Basic knowledge base for chatbot replies
+    const knowledgeBase = [
+      {
+        keywords: ["hello", "hi", "hey"],
+        reply: "Hello! How can I assist you today? You can ask me about RentO services or fill the contact form for further assistance.",
+      },
+      {
+        keywords: ["rent", "room", "rooms"],
+        reply: "RentO helps you find and rent rooms easily. You can upload your room or search for rooms to rent on our platform.",
+      },
+      {
+        keywords: ["upload", "list", "post"],
+        reply: "You can upload your room by signing up and using the upload feature on our website.",
+      },
+      {
+        keywords: ["contact", "support", "help"],
+        reply: "For detailed assistance, please fill the contact form on this page. Our team will get back to you shortly.",
+      },
+      {
+        keywords: ["thank", "thanks"],
+        reply: "You're welcome! If you have more questions, feel free to ask or fill the contact form.",
+      },
+    ];
+
+    // Function to add message to chat window
+    function addMessage(text, sender = "bot") {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.textContent = text;
+      chatbotMessages.appendChild(msg);
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    // On page load, greet user
+    addMessage("Hi! I'm RentO's virtual assistant. How can I help you?");
+
+    // Send user message and bot reply
+    chatbotForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const userMsg = chatbotInput.value.trim();
+      if (!userMsg) return;
+      addMessage(userMsg, "user");
+      chatbotInput.value = "";
+      // Find reply from knowledge base
+      const lowerMsg = userMsg.toLowerCase();
+      let reply = "Sorry, I didn't understand that. Please fill the contact form for further assistance.";
+      for (const item of knowledgeBase) {
+        if (item.keywords.some((kw) => lowerMsg.includes(kw))) {
+          reply = item.reply;
+          break;
+        }
+      }
+      setTimeout(() => {
+        addMessage(reply, "bot");
+        // Notify owner by email (simulate)
+        notifyOwner(userMsg, reply);
+      }, 800);
+    });
+
+    // Simulate notifying owner by email (replace with real email service)
+    function notifyOwner(userMessage, botReply) {
+      // Here you would integrate with an email API to send chat logs to aaru94395@gmail.com
+      // For demo, just console log
+      console.log("Notify owner (aaru94395@gmail.com):");
+      console.log("User message:", userMessage);
+      console.log("Bot reply:", botReply);
+    }
+  </script>
+</body>
+</html>
